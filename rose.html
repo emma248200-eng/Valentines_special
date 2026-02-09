@@ -23,12 +23,20 @@
       overflow: hidden;
       color: white;
       text-align: center;
+    }
+
+    /* MAIN CONTENT (locked initially) */
+    #mainContent {
+      display: none;
       position: relative;
+      width: 100%;
+      height: 100%;
     }
 
     h1 {
       position: absolute;
       top: 30px;
+      width: 100%;
       font-size: 36px;
       text-shadow: 0 0 10px rgba(255,255,255,0.6);
     }
@@ -36,47 +44,79 @@
     #helper {
       position: absolute;
       top: 90px;
+      width: 100%;
       font-size: 18px;
       opacity: 0.85;
       animation: pulse 1.5s infinite;
     }
 
     @keyframes pulse {
+      0% { opacity: 0.4; }
       50% { opacity: 1; }
+      100% { opacity: 0.4; }
     }
 
-    /* Rose content (LOCKED INITIALLY) */
-    #mainContent {
-      display: none;
+    /* ROSE */
+    #rose-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
     }
 
     #rose {
       font-size: 150px;
-      cursor: pointer;
       transition: transform 1.2s ease, filter 1.2s ease;
     }
 
     #rose.bloom {
-      transform: scale(1.4);
+      transform: scale(1.4) rotate(6deg);
       filter: drop-shadow(0 0 30px rgba(255, 0, 100, 0.8));
     }
 
     #rose-message {
-      margin-top: 20px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 230px;
       font-size: 16px;
       opacity: 0;
-      transition: opacity 1.2s ease;
+      transition: opacity 1.3s ease;
+      pointer-events: none;
     }
 
     #rose-message.show {
       opacity: 1;
     }
 
-    /* Question popup (VISIBLE ON LOAD) */
+    /* NEXT BUTTON */
+    #nextBtn {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: #ff3b6f;
+      color: white;
+      border: none;
+      padding: 14px 24px;
+      border-radius: 30px;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+      display: none;
+      animation: pop 1.5s infinite;
+    }
+
+    @keyframes pop {
+      50% { transform: scale(1.08); }
+    }
+
+    /* QUESTION POPUP */
     .popup {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.55);
+      background: rgba(0,0,0,0.45);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -85,9 +125,9 @@
 
     .box {
       background: white;
-      color: #ff4d6d;
+      color: black;
       padding: 25px;
-      border-radius: 20px;
+      border-radius: 18px;
       width: 300px;
       text-align: center;
     }
@@ -95,10 +135,9 @@
     .box input {
       width: 90%;
       padding: 8px;
+      margin: 12px 0;
       border-radius: 10px;
       border: 1px solid #ccc;
-      margin: 12px 0;
-      font-family: sans-serif;
     }
 
     .box button {
@@ -110,7 +149,7 @@
       cursor: pointer;
     }
 
-    /* Floating hearts */
+    /* FLOATING HEARTS */
     .heart {
       position: absolute;
       bottom: -20px;
@@ -120,6 +159,7 @@
     }
 
     @keyframes float {
+      from { transform: translateY(0); }
       to { transform: translateY(-120vh); }
     }
   </style>
@@ -130,18 +170,18 @@
   <!-- QUESTION FIRST -->
   <div class="popup" id="questionPopup">
     <div class="box">
-      <p>Which is my favourite anime female lead? 👀</p>
+      <p>Which is my favourite anime female lead? 😌</p>
       <input id="answer" placeholder="Your answer">
       <button onclick="unlockPage()">Unlock 🌹</button>
     </div>
   </div>
 
-  <!-- MAIN ROSE CONTENT (LOCKED) -->
+  <!-- MAIN ROSE CONTENT -->
   <div id="mainContent">
     <h1>Happy Rose Day, my cutie 🌹</h1>
     <div id="helper">Click the rose 🌹</div>
 
-    <div onclick="bloomRose()">
+    <div id="rose-container" onclick="bloomRose()">
       <div id="rose">🥀</div>
       <div id="rose-message">
         For my cutie 💖<br>
@@ -149,20 +189,23 @@
         my love blooms only for you 🌸
       </div>
     </div>
+
+    <button id="nextBtn" onclick="goNext()">Next 💍</button>
   </div>
 
   <script>
-    /* Floating hearts */
+    /* Hearts */
     setInterval(() => {
-      const heart = document.createElement("div");
-      heart.className = "heart";
-      heart.innerHTML = "💖";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.animationDuration = Math.random() * 4 + 6 + "s";
-      document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 8000);
+      const h = document.createElement("div");
+      h.className = "heart";
+      h.innerHTML = "💖";
+      h.style.left = Math.random() * 100 + "vw";
+      h.style.animationDuration = Math.random() * 4 + 6 + "s";
+      document.body.appendChild(h);
+      setTimeout(() => h.remove(), 8000);
     }, 300);
 
+    /* Unlock page */
     function unlockPage() {
       const ans = document.getElementById("answer").value
         .toLowerCase()
@@ -177,11 +220,20 @@
       }
     }
 
+    /* Bloom rose */
     function bloomRose() {
-      document.getElementById("rose").innerHTML = "🌹";
-      document.getElementById("rose").classList.add("bloom");
+      const rose = document.getElementById("rose");
+      rose.innerHTML = "🌹";
+      rose.classList.add("bloom");
       document.getElementById("rose-message").classList.add("show");
       document.getElementById("helper").style.display = "none";
+      document.getElementById("nextBtn").style.display = "block";
+      document.getElementById("rose-container").onclick = null;
+    }
+
+    /* Next page */
+    function goNext() {
+      window.location.href = "propose.html";
     }
   </script>
 
