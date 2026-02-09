@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Rose Day 💖</title>
+  <title>Rose Day 🌹</title>
 
   <!-- Handwriting font -->
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
@@ -17,40 +17,36 @@
 
     body {
       height: 100vh;
-      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      background: linear-gradient(135deg, #ff6a88, #ff99ac);
       display: flex;
       justify-content: center;
       align-items: center;
       overflow: hidden;
       color: white;
       text-align: center;
+      position: relative;
     }
 
     h1 {
       position: absolute;
-      top: 40px;
+      top: 30px;
       font-size: 36px;
       text-shadow: 0 0 10px rgba(255,255,255,0.6);
     }
 
-    /* Floating hearts */
-    .heart {
+    /* Helper message */
+    #helper {
       position: absolute;
-      bottom: -20px;
-      font-size: 20px;
-      animation: float 8s linear infinite;
-      opacity: 0.7;
+      top: 90px;
+      font-size: 18px;
+      opacity: 0.85;
+      animation: pulse 1.5s infinite;
     }
 
-    @keyframes float {
-      0% {
-        transform: translateY(0) scale(1);
-        opacity: 0.8;
-      }
-      100% {
-        transform: translateY(-110vh) scale(1.5);
-        opacity: 0;
-      }
+    @keyframes pulse {
+      0% { opacity: 0.4; }
+      50% { opacity: 1; }
+      100% { opacity: 0.4; }
     }
 
     /* Rose container */
@@ -60,47 +56,68 @@
     }
 
     #rose {
-      font-size: 140px;
-      transition: transform 1s ease, filter 1s ease;
+      font-size: 150px;
+      transition: transform 1.2s ease, filter 1.2s ease;
     }
 
     #rose.bloom {
-      transform: scale(1.5) rotate(6deg);
-      filter: drop-shadow(0 0 30px rgba(255, 0, 100, 0.7));
+      transform: scale(1.4) rotate(6deg);
+      filter: drop-shadow(0 0 30px rgba(255, 0, 100, 0.8));
     }
 
-    /* Note written on rose */
-    #rose-note {
+    /* Message on rose */
+    #rose-message {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 200px;
+      width: 230px;
       font-size: 16px;
-      color: white;
       opacity: 0;
-      transition: opacity 1.2s ease;
-      text-shadow: 0 0 5px rgba(0,0,0,0.4);
+      transition: opacity 1.3s ease;
+      text-shadow: 0 0 6px rgba(0,0,0,0.4);
       pointer-events: none;
     }
 
-    #rose-note.show {
+    #rose-message.show {
       opacity: 1;
     }
 
-    /* Click hint */
-    #hint {
-      position: absolute;
-      bottom: 40px;
-      font-size: 18px;
-      opacity: 0.9;
-      animation: pulse 1.5s infinite;
+    /* Next button */
+    #next-btn {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: #ff3b6f;
+      color: white;
+      border: none;
+      padding: 14px 22px;
+      border-radius: 30px;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+      display: none;
+      animation: pop 1.5s infinite;
     }
 
-    @keyframes pulse {
-      0% { opacity: 0.4; }
-      50% { opacity: 1; }
-      100% { opacity: 0.4; }
+    @keyframes pop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+
+    /* Floating hearts */
+    .heart {
+      position: absolute;
+      bottom: -20px;
+      font-size: 18px;
+      animation: float 8s linear infinite;
+      opacity: 0.7;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-120vh); }
     }
   </style>
 </head>
@@ -108,25 +125,27 @@
 <body>
 
   <h1>Happy Rose Day, my cutie 🌹</h1>
+  <div id="helper">Click the rose 🌹</div>
 
   <div id="rose-container" onclick="bloomRose()">
     <div id="rose">🥀</div>
-    <div id="rose-note">
+
+    <div id="rose-message">
       For my cutie 💖<br>
-      You make my world bloom 🌸
+      Just like this rose,<br>
+      my love blooms only for you 🌸
     </div>
   </div>
 
-  <div id="hint">Click the rose 🌹</div>
+  <button id="next-btn" onclick="goNext()">Click for the next 💕</button>
 
-  <!-- Hearts -->
   <script>
+    /* Floating hearts */
     function createHeart() {
       const heart = document.createElement("div");
       heart.classList.add("heart");
       heart.innerHTML = "💖";
       heart.style.left = Math.random() * 100 + "vw";
-      heart.style.fontSize = Math.random() * 20 + 15 + "px";
       heart.style.animationDuration = Math.random() * 4 + 6 + "s";
       document.body.appendChild(heart);
 
@@ -135,18 +154,25 @@
 
     setInterval(createHeart, 300);
 
+    /* Rose bloom */
     function bloomRose() {
       const rose = document.getElementById("rose");
-      const note = document.getElementById("rose-note");
-      const hint = document.getElementById("hint");
+      const msg = document.getElementById("rose-message");
+      const helper = document.getElementById("helper");
+      const nextBtn = document.getElementById("next-btn");
 
       rose.innerHTML = "🌹";
       rose.classList.add("bloom");
-      note.classList.add("show");
-      hint.style.display = "none";
+      msg.classList.add("show");
+      helper.style.display = "none";
+      nextBtn.style.display = "block";
 
       document.getElementById("rose-container").onclick = null;
     }
+
+    function goToQuestion() {
+    window.location.href = "question.html";
+  }
   </script>
 
 </body>
