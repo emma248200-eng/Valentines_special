@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rose Day 💖</title>
+
+  <!-- Handwriting font -->
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Pacifico', cursive;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      color: white;
+      text-align: center;
+    }
+
+    h1 {
+      position: absolute;
+      top: 40px;
+      font-size: 36px;
+      text-shadow: 0 0 10px rgba(255,255,255,0.6);
+    }
+
+    /* Floating hearts */
+    .heart {
+      position: absolute;
+      bottom: -20px;
+      font-size: 20px;
+      animation: float 8s linear infinite;
+      opacity: 0.7;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-110vh) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    /* Rose container */
+    #rose-container {
+      position: relative;
+      cursor: pointer;
+    }
+
+    #rose {
+      font-size: 140px;
+      transition: transform 1s ease, filter 1s ease;
+    }
+
+    #rose.bloom {
+      transform: scale(1.5) rotate(6deg);
+      filter: drop-shadow(0 0 30px rgba(255, 0, 100, 0.7));
+    }
+
+    /* Note written on rose */
+    #rose-note {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 200px;
+      font-size: 16px;
+      color: white;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+      text-shadow: 0 0 5px rgba(0,0,0,0.4);
+      pointer-events: none;
+    }
+
+    #rose-note.show {
+      opacity: 1;
+    }
+
+    /* Click hint */
+    #hint {
+      position: absolute;
+      bottom: 40px;
+      font-size: 18px;
+      opacity: 0.9;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.4; }
+      50% { opacity: 1; }
+      100% { opacity: 0.4; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Happy Rose Day, my cutie 🌹</h1>
+
+  <div id="rose-container" onclick="bloomRose()">
+    <div id="rose">🥀</div>
+    <div id="rose-note">
+      For my cutie 💖<br>
+      You make my world bloom 🌸
+    </div>
+  </div>
+
+  <div id="hint">Click the rose 🌹</div>
+
+  <!-- Hearts -->
+  <script>
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = "💖";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = Math.random() * 20 + 15 + "px";
+      heart.style.animationDuration = Math.random() * 4 + 6 + "s";
+      document.body.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 8000);
+    }
+
+    setInterval(createHeart, 300);
+
+    function bloomRose() {
+      const rose = document.getElementById("rose");
+      const note = document.getElementById("rose-note");
+      const hint = document.getElementById("hint");
+
+      rose.innerHTML = "🌹";
+      rose.classList.add("bloom");
+      note.classList.add("show");
+      hint.style.display = "none";
+
+      document.getElementById("rose-container").onclick = null;
+    }
+  </script>
+
+</body>
+</html>
