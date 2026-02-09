@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For My Cutie ❤️</title>
+
+<!-- Handwriting font -->
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  /* Center text */
+  .content {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 2;
+    position: relative;
+  }
+
+  h1 {
+    font-family: 'Great Vibes', cursive;
+    font-size: 3.4rem;
+    color: white;
+    text-shadow: 0 5px 15px rgba(0,0,0,0.25);
+  }
+
+  /* Floating hearts */
+  .hearts span {
+    position: absolute;
+    bottom: -20px;
+    font-size: 22px;
+    animation: float 12s linear infinite;
+    opacity: 0.6;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-120vh); }
+  }
+
+  /* Floating button */
+  .floating-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #ff4d6d;
+    color: white;
+    border: none;
+    padding: 15px 24px;
+    border-radius: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 12px 25px rgba(0,0,0,0.25);
+    animation: pulse 2s infinite;
+    z-index: 3;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+  }
+
+  /* Popup */
+  .popup {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+  }
+
+  .box {
+    background: white;
+    padding: 25px;
+    border-radius: 18px;
+    width: 300px;
+    text-align: center;
+  }
+
+  .box p {
+    font-size: 1rem;
+  }
+
+  input {
+    width: 90%;
+    padding: 8px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    outline: none;
+  }
+
+  .box button {
+    background: #ff4d6d;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+
+</style>
+</head>
+
+<body>
+
+<!-- Floating hearts -->
+<div class="hearts"></div>
+
+<!-- Main content -->
+<div class="content">
+  <h1 id="text"></h1>
+</div>
+
+<!-- Floating button -->
+<button class="floating-btn" onclick="openPopup()">Click me for surprises 💝</button>
+
+<!-- Question popup -->
+<div class="popup" id="popup">
+  <div class="box">
+    <p id="question"></p>
+    <input type="text" id="answer" placeholder="Your answer 💭">
+    <button onclick="checkAnswer()">Unlock ❤️</button>
+  </div>
+</div>
+
+<script>
+  /* Typing text */
+  const message = "A beautiful Valentine’s Week for my cutie ❤️";
+  let i = 0;
+
+  function typeText() {
+    if (i < message.length) {
+      document.getElementById("text").innerHTML += message.charAt(i);
+      i++;
+      setTimeout(typeText, 90);
+    }
+  }
+  typeText();
+
+  /* Floating hearts generator */
+  const hearts = document.querySelector(".hearts");
+  for (let i = 0; i < 25; i++) {
+    const span = document.createElement("span");
+    span.innerHTML = "❤️";
+    span.style.left = Math.random() * 100 + "vw";
+    span.style.animationDuration = 8 + Math.random() * 8 + "s";
+    hearts.appendChild(span);
+  }
+
+  /* Question system */
+  const questionText = "What nickname did you give me first? 😌";
+  const correctAnswer = "baby"; // CHANGE THIS
+
+  function openPopup() {
+    if (localStorage.getItem("roseUnlocked")) {
+      alert("🌹 Rose Day already unlocked ❤️\nYou’re doing great 😌");
+      return;
+    }
+    document.getElementById("question").innerText = questionText;
+    document.getElementById("popup").style.display = "flex";
+  }
+
+  function checkAnswer() {
+    const userAnswer = document.getElementById("answer").value.toLowerCase().trim();
+    if (userAnswer === correctAnswer) {
+      localStorage.setItem("roseUnlocked", true);
+      document.getElementById("popup").style.display = "none";
+      alert("🌹 Rose Day unlocked 💖\n\nIf I had a rose for every time I thought of you,\nI’d have a whole garden.");
+    } else {
+      alert("Wrong 😌 think harder, lover");
+    }
+  }
+</script>
+
+</body>
+</html>
