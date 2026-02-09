@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Rose Day 🌹</title>
 
-  <!-- Handwriting font -->
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 
   <style>
@@ -34,7 +33,6 @@
       text-shadow: 0 0 10px rgba(255,255,255,0.6);
     }
 
-    /* Helper message */
     #helper {
       position: absolute;
       top: 90px;
@@ -44,66 +42,72 @@
     }
 
     @keyframes pulse {
-      0% { opacity: 0.4; }
       50% { opacity: 1; }
-      100% { opacity: 0.4; }
     }
 
-    /* Rose container */
-    #rose-container {
-      position: relative;
-      cursor: pointer;
+    /* Rose content (LOCKED INITIALLY) */
+    #mainContent {
+      display: none;
     }
 
     #rose {
       font-size: 150px;
+      cursor: pointer;
       transition: transform 1.2s ease, filter 1.2s ease;
     }
 
     #rose.bloom {
-      transform: scale(1.4) rotate(6deg);
+      transform: scale(1.4);
       filter: drop-shadow(0 0 30px rgba(255, 0, 100, 0.8));
     }
 
-    /* Message on rose */
     #rose-message {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 230px;
+      margin-top: 20px;
       font-size: 16px;
       opacity: 0;
-      transition: opacity 1.3s ease;
-      text-shadow: 0 0 6px rgba(0,0,0,0.4);
-      pointer-events: none;
+      transition: opacity 1.2s ease;
     }
 
     #rose-message.show {
       opacity: 1;
     }
 
-    /* Next button */
-    #next-btn {
+    /* Question popup (VISIBLE ON LOAD) */
+    .popup {
       position: fixed;
-      bottom: 25px;
-      right: 25px;
-      background: #ff3b6f;
-      color: white;
-      border: none;
-      padding: 14px 22px;
-      border-radius: 30px;
-      font-size: 16px;
-      cursor: pointer;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-      display: none;
-      animation: pop 1.5s infinite;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
     }
 
-    @keyframes pop {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.08); }
-      100% { transform: scale(1); }
+    .box {
+      background: white;
+      color: #ff4d6d;
+      padding: 25px;
+      border-radius: 20px;
+      width: 300px;
+      text-align: center;
+    }
+
+    .box input {
+      width: 90%;
+      padding: 8px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      margin: 12px 0;
+      font-family: sans-serif;
+    }
+
+    .box button {
+      background: #ff4d6d;
+      color: white;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 20px;
+      cursor: pointer;
     }
 
     /* Floating hearts */
@@ -116,63 +120,69 @@
     }
 
     @keyframes float {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-120vh); }
+      to { transform: translateY(-120vh); }
     }
   </style>
 </head>
 
 <body>
 
-  <h1>Happy Rose Day, my cutie 🌹</h1>
-  <div id="helper">Click the rose 🌹</div>
-
-  <div id="rose-container" onclick="bloomRose()">
-    <div id="rose">🥀</div>
-
-    <div id="rose-message">
-      For my cutie 💖<br>
-      Just like this rose,<br>
-      my love blooms only for you 🌸
+  <!-- QUESTION FIRST -->
+  <div class="popup" id="questionPopup">
+    <div class="box">
+      <p>Which is my favourite anime female lead? 👀</p>
+      <input id="answer" placeholder="Your answer">
+      <button onclick="unlockPage()">Unlock 🌹</button>
     </div>
   </div>
 
-  <button id="next-btn" onclick="goNext()">Click for the next 💕</button>
+  <!-- MAIN ROSE CONTENT (LOCKED) -->
+  <div id="mainContent">
+    <h1>Happy Rose Day, my cutie 🌹</h1>
+    <div id="helper">Click the rose 🌹</div>
+
+    <div onclick="bloomRose()">
+      <div id="rose">🥀</div>
+      <div id="rose-message">
+        For my cutie 💖<br>
+        Just like this rose,<br>
+        my love blooms only for you 🌸
+      </div>
+    </div>
+  </div>
 
   <script>
     /* Floating hearts */
-    function createHeart() {
+    setInterval(() => {
       const heart = document.createElement("div");
-      heart.classList.add("heart");
+      heart.className = "heart";
       heart.innerHTML = "💖";
       heart.style.left = Math.random() * 100 + "vw";
       heart.style.animationDuration = Math.random() * 4 + 6 + "s";
       document.body.appendChild(heart);
-
       setTimeout(() => heart.remove(), 8000);
+    }, 300);
+
+    function unlockPage() {
+      const ans = document.getElementById("answer").value
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, "");
+
+      if (ans === "maomao") {
+        document.getElementById("questionPopup").style.display = "none";
+        document.getElementById("mainContent").style.display = "block";
+      } else {
+        alert("Wrong dumbass 😭 try again");
+      }
     }
 
-    setInterval(createHeart, 300);
-
-    /* Rose bloom */
     function bloomRose() {
-      const rose = document.getElementById("rose");
-      const msg = document.getElementById("rose-message");
-      const helper = document.getElementById("helper");
-      const nextBtn = document.getElementById("next-btn");
-
-      rose.innerHTML = "🌹";
-      rose.classList.add("bloom");
-      msg.classList.add("show");
-      helper.style.display = "none";
-      nextBtn.style.display = "block";
-
-      document.getElementById("rose-container").onclick = null;
+      document.getElementById("rose").innerHTML = "🌹";
+      document.getElementById("rose").classList.add("bloom");
+      document.getElementById("rose-message").classList.add("show");
+      document.getElementById("helper").style.display = "none";
     }
-
-    function goToQuestion() {
-    window.location.href = "question.html";
-  }
   </script>
 
 </body>
