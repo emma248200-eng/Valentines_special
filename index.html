@@ -2,116 +2,238 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>For My Cutie ❤️</title>
+  <title>Rose Day 🌹</title>
 
-  <!-- Handwriting font -->
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 
   <style>
-    body {
+    * {
       margin: 0;
-      height: 100vh;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-      overflow: hidden;
-      font-family: 'Poppins', sans-serif;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Pacifico', cursive;
     }
 
-    /* Center content */
-    .content {
+    body {
       height: 100vh;
+      background: linear-gradient(135deg, #ff6a88, #ff99ac);
       display: flex;
       justify-content: center;
       align-items: center;
+      overflow: hidden;
+      color: white;
       text-align: center;
+    }
+
+    /* MAIN CONTENT (locked initially) */
+    #mainContent {
+      display: none;
       position: relative;
-      z-index: 2;
-      flex-direction: column;
+      width: 100%;
+      height: 100%;
     }
 
     h1 {
-      font-family: 'Great Vibes', cursive;
-      font-size: 3.4rem;
-      color: white;
-      text-shadow: 0 5px 15px rgba(0,0,0,0.25);
-      margin-bottom: 40px;
+      position: absolute;
+      top: 30px;
+      width: 100%;
+      font-size: 36px;
+      text-shadow: 0 0 10px rgba(255,255,255,0.6);
     }
 
-    /* Floating hearts */
-    .hearts span {
+    #helper {
+      position: absolute;
+      top: 90px;
+      width: 100%;
+      font-size: 18px;
+      opacity: 0.85;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.4; }
+      50% { opacity: 1; }
+      100% { opacity: 0.4; }
+    }
+
+    /* ROSE */
+    #rose-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+    }
+
+    #rose {
+      font-size: 150px;
+      transition: transform 1.2s ease, filter 1.2s ease;
+    }
+
+    #rose.bloom {
+      transform: scale(1.4) rotate(6deg);
+      filter: drop-shadow(0 0 30px rgba(255, 0, 100, 0.8));
+    }
+
+    #rose-message {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 230px;
+      font-size: 16px;
+      opacity: 0;
+      transition: opacity 1.3s ease;
+      pointer-events: none;
+    }
+
+    #rose-message.show {
+      opacity: 1;
+    }
+
+    /* NEXT BUTTON */
+    #nextBtn {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: #ff3b6f;
+      color: white;
+      border: none;
+      padding: 14px 24px;
+      border-radius: 30px;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+      display: none;
+      animation: pop 1.5s infinite;
+    }
+
+    @keyframes pop {
+      50% { transform: scale(1.08); }
+    }
+
+    /* QUESTION POPUP */
+    .popup {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .box {
+      background: white;
+      color: black;
+      padding: 25px;
+      border-radius: 18px;
+      width: 300px;
+      text-align: center;
+    }
+
+    .box input {
+      width: 90%;
+      padding: 8px;
+      margin: 12px 0;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+
+    .box button {
+      background: #ff4d6d;
+      color: white;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    /* FLOATING HEARTS */
+    .heart {
       position: absolute;
       bottom: -20px;
-      font-size: 22px;
-      animation: float 12s linear infinite;
-      opacity: 0.6;
+      font-size: 18px;
+      animation: float 8s linear infinite;
+      opacity: 0.7;
     }
 
     @keyframes float {
       from { transform: translateY(0); }
       to { transform: translateY(-120vh); }
     }
-
-    /* Next button */
-    .next-btn {
-      background: #ff4d6d;
-      color: white;
-      border: none;
-      padding: 15px 28px;
-      border-radius: 30px;
-      font-size: 1rem;
-      cursor: pointer;
-      box-shadow: 0 12px 25px rgba(0,0,0,0.25);
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.08); }
-      100% { transform: scale(1); }
-    }
   </style>
 </head>
 
 <body>
 
-  <!-- Floating hearts -->
-  <div class="hearts"></div>
+  <!-- QUESTION FIRST -->
+  <div class="popup" id="questionPopup">
+    <div class="box">
+      <p>Which is my favourite anime female lead? 😌</p>
+      <input id="answer" placeholder="Your answer">
+      <button onclick="unlockPage()">Unlock 🌹</button>
+    </div>
+  </div>
 
-  <!-- Main content -->
-  <div class="content">
-    <h1 id="text"></h1>
+  <!-- MAIN ROSE CONTENT -->
+  <div id="mainContent">
+    <h1>Happy Rose Day, my cutie 🌹</h1>
+    <div id="helper">Click the rose 🌹</div>
 
-    <button class="next-btn" onclick="goToRose()">
-      Next 🌹
-    </button>
+    <div id="rose-container" onclick="bloomRose()">
+      <div id="rose">🥀</div>
+      <div id="rose-message">
+        For my cutie 💖<br>
+        Just like this rose,<br>
+        my love blooms only for you 🌸
+      </div>
+    </div>
+
+    <button id="nextBtn" onclick="goNext()">Next 💍</button>
   </div>
 
   <script>
-    /* Typing effect */
-    const message = "A beautiful Valentine’s Week for my cutie ❤️";
-    let i = 0;
+    /* Hearts */
+    setInterval(() => {
+      const h = document.createElement("div");
+      h.className = "heart";
+      h.innerHTML = "💖";
+      h.style.left = Math.random() * 100 + "vw";
+      h.style.animationDuration = Math.random() * 4 + 6 + "s";
+      document.body.appendChild(h);
+      setTimeout(() => h.remove(), 8000);
+    }, 300);
 
-    function typeText() {
-      if (i < message.length) {
-        document.getElementById("text").innerHTML += message.charAt(i);
-        i++;
-        setTimeout(typeText, 90);
+    /* Unlock page */
+    function unlockPage() {
+      const ans = document.getElementById("answer").value
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, "");
+
+      if (ans === "maomao") {
+        document.getElementById("questionPopup").style.display = "none";
+        document.getElementById("mainContent").style.display = "block";
+      } else {
+        alert("Wrong dumbass 😭 try again");
       }
     }
-    typeText();
 
-    /* Floating hearts generator */
-    const hearts = document.querySelector(".hearts");
-    for (let i = 0; i < 25; i++) {
-      const span = document.createElement("span");
-      span.innerHTML = "❤️";
-      span.style.left = Math.random() * 100 + "vw";
-      span.style.animationDuration = 8 + Math.random() * 8 + "s";
-      hearts.appendChild(span);
+    /* Bloom rose */
+    function bloomRose() {
+      const rose = document.getElementById("rose");
+      rose.innerHTML = "🌹";
+      rose.classList.add("bloom");
+      document.getElementById("rose-message").classList.add("show");
+      document.getElementById("helper").style.display = "none";
+      document.getElementById("nextBtn").style.display = "block";
+      document.getElementById("rose-container").onclick = null;
     }
 
-    /* Go to Rose page */
-    function goToRose() {
-      window.location.href = "rose.html";
+    /* Next page */
+    function goNext() {
+      window.location.href = "propose.html";
     }
   </script>
 
