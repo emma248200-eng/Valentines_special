@@ -128,7 +128,7 @@ input {
 <!-- Rose Day Question -->
 <div class="popup" id="rosePopup">
   <div class="box">
-    <p>What nickname did you give me first? 😌</p>
+    <p>What is my favourite anime female lead? 😌</p>
     <input id="roseAns" placeholder="Your answer">
     <button onclick="unlockRose()">Unlock 🌹</button>
   </div>
@@ -205,11 +205,12 @@ function unlockSecond() {
   if (animeAns.value.toLowerCase().trim() === "maomao") {
     localStorage.setItem("second", true);
     animePopup.style.display = "none";
-    alert("💍 Propose Day unlocked 😏❤️");
+    window.location.href = "propose.html";
   } else {
     alert("Wrong dumbass 😭 try again");
   }
 }
+
 </script>
 
 </body>
