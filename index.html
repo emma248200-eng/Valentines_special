@@ -138,53 +138,32 @@
 </div>
 
 <script>
-  /* Typing text */
-  const message = "A beautiful Valentine’s Week for my cutie ❤️";
-  let i = 0;
+const correctAnswer = "blue"; // your answer
 
-  function typeText() {
-    if (i < message.length) {
-      document.getElementById("text").innerHTML += message.charAt(i);
-      i++;
-      setTimeout(typeText, 90);
-    }
-  }
-  typeText();
-
-  /* Floating hearts generator */
-  const hearts = document.querySelector(".hearts");
-  for (let i = 0; i < 25; i++) {
-    const span = document.createElement("span");
-    span.innerHTML = "❤️";
-    span.style.left = Math.random() * 100 + "vw";
-    span.style.animationDuration = 8 + Math.random() * 8 + "s";
-    hearts.appendChild(span);
+function openRose() {
+  if (localStorage.getItem("roseUnlocked")) {
+    showRosePage();
+    return;
   }
 
-  /* Question system */
-  const questionText = "What is my favourite colour? 😌";
-  const correctAnswer = "blue"; // CHANGE THIS
+  const userAnswer = prompt("What is my favourite colour? 😌");
+  if (!userAnswer) return;
 
-  function openPopup() {
-    if (localStorage.getItem("roseUnlocked")) {
-      alert("🌹 Rose Day already unlocked ❤️\nYou’re doing great 😌");
-      return;
-    }
-    document.getElementById("question").innerText = questionText;
-    document.getElementById("popup").style.display = "flex";
+  if (userAnswer.toLowerCase().trim() === correctAnswer) {
+    localStorage.setItem("roseUnlocked", true);
+    showRosePage();
+  } else {
+    alert("Wrong 😌 think harder, lover");
   }
+}
 
-  function checkAnswer() {
-    const userAnswer = document.getElementById("answer").value.toLowerCase().trim();
-    if (userAnswer === correctAnswer) {
-      localStorage.setItem("roseUnlocked", true);
-      document.getElementById("popup").style.display = "none";
-      alert("🌹 Rose Day unlocked 💖\n\nIf I had a rose for every time I thought of you,\nI’d have a whole garden.");
-    } else {
-      alert("Wrong 😌 think harder, lover");
-    }
-  }
+function showRosePage() {
+  document.querySelector(".content").style.display = "none";
+  document.querySelector(".floating-btn").style.display = "none";
+  document.getElementById("rosePage").style.display = "block";
+}
 </script>
+
 
 </body>
 </html>
