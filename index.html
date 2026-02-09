@@ -1,217 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>For My Cutie ❤️</title>
+  <meta charset="UTF-8">
+  <title>For My Cutie ❤️</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <!-- Handwriting font -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 
-<style>
-body {
-  margin: 0;
-  height: 100vh;
-  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-  overflow: hidden;
-  font-family: Poppins, sans-serif;
-}
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+    }
 
-/* Center text */
-.content {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
+    /* Center content */
+    .content {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      flex-direction: column;
+    }
 
-h1 {
-  font-family: 'Great Vibes', cursive;
-  font-size: 3.4rem;
-  color: white;
-  text-shadow: 0 5px 15px rgba(0,0,0,0.25);
-}
+    h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3.4rem;
+      color: white;
+      text-shadow: 0 5px 15px rgba(0,0,0,0.25);
+      margin-bottom: 40px;
+    }
 
-/* Floating hearts */
-.hearts span {
-  position: absolute;
-  bottom: -20px;
-  font-size: 22px;
-  animation: float 12s linear infinite;
-  opacity: 0.6;
-}
+    /* Floating hearts */
+    .hearts span {
+      position: absolute;
+      bottom: -20px;
+      font-size: 22px;
+      animation: float 12s linear infinite;
+      opacity: 0.6;
+    }
 
-@keyframes float {
-  from { transform: translateY(0); }
-  to { transform: translateY(-120vh); }
-}
+    @keyframes float {
+      from { transform: translateY(0); }
+      to { transform: translateY(-120vh); }
+    }
 
-/* Floating button */
-.floating-btn {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  background: #ff4d6d;
-  color: white;
-  border: none;
-  padding: 15px 24px;
-  border-radius: 30px;
-  cursor: pointer;
-  box-shadow: 0 12px 25px rgba(0,0,0,0.25);
-  animation: pulse 2s infinite;
-}
+    /* Next button */
+    .next-btn {
+      background: #ff4d6d;
+      color: white;
+      border: none;
+      padding: 15px 28px;
+      border-radius: 30px;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 12px 25px rgba(0,0,0,0.25);
+      animation: pulse 2s infinite;
+    }
 
-@keyframes pulse {
-  50% { transform: scale(1.08); }
-}
-
-/* Popup base */
-.popup {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.45);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 5;
-}
-
-.box {
-  background: white;
-  padding: 25px;
-  border-radius: 18px;
-  width: 300px;
-  text-align: center;
-}
-
-input {
-  width: 90%;
-  padding: 8px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  margin: 10px 0;
-}
-
-.box button {
-  background: #ff4d6d;
-  color: white;
-  border: none;
-  padding: 8px 18px;
-  border-radius: 20px;
-  cursor: pointer;
-}
-
-/* Balloon */
-#balloon {
-  font-size: 60px;
-  cursor: pointer;
-  animation: floatBalloon 2s infinite ease-in-out;
-}
-
-@keyframes floatBalloon {
-  50% { transform: translateY(-15px); }
-}
-</style>
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="hearts"></div>
+  <!-- Floating hearts -->
+  <div class="hearts"></div>
 
-<div class="content">
-  <h1 id="text"></h1>
-</div>
+  <!-- Main content -->
+  <div class="content">
+    <h1 id="text"></h1>
 
-<button class="floating-btn" onclick="handleClick()">
-  Click me for surprises 💝
-</button>
-
-<!-- Rose Day Question -->
-<div class="popup" id="rosePopup">
-  <div class="box">
-    <p>What is my favourite anime female lead? 😌</p>
-    <input id="roseAns" placeholder="Your answer">
-    <button onclick="unlockRose()">Unlock 🌹</button>
+    <button class="next-btn" onclick="goToRose()">
+      Next 🌹
+    </button>
   </div>
-</div>
 
-<!-- Congrats Screen -->
-<div class="popup" id="congratsPopup">
-  <div class="box">
-    <h2>🎉 Congratulations dumbass 🎉</h2>
-    <p>Pop this balloon to see the question 🎈</p>
-    <div id="balloon" onclick="popBalloon()">🎈</div>
-  </div>
-</div>
+  <script>
+    /* Typing effect */
+    const message = "A beautiful Valentine’s Week for my cutie ❤️";
+    let i = 0;
 
-<!-- Second Question -->
-<div class="popup" id="animePopup">
-  <div class="box">
-    <p>Who is my favourite female lead from anime? 👀</p>
-    <input id="animeAns" placeholder="Your answer">
-    <button onclick="unlockSecond()">Unlock 💍</button>
-  </div>
-</div>
+    function typeText() {
+      if (i < message.length) {
+        document.getElementById("text").innerHTML += message.charAt(i);
+        i++;
+        setTimeout(typeText, 90);
+      }
+    }
+    typeText();
 
-<script>
-/* Typing effect */
-const msg = "A beautiful Valentine’s Week for my cutie ❤️";
-let i = 0;
-(function type() {
-  if (i < msg.length) {
-    text.innerHTML += msg.charAt(i++);
-    setTimeout(type, 90);
-  }
-})();
+    /* Floating hearts generator */
+    const hearts = document.querySelector(".hearts");
+    for (let i = 0; i < 25; i++) {
+      const span = document.createElement("span");
+      span.innerHTML = "❤️";
+      span.style.left = Math.random() * 100 + "vw";
+      span.style.animationDuration = 8 + Math.random() * 8 + "s";
+      hearts.appendChild(span);
+    }
 
-/* Hearts */
-for (let i = 0; i < 25; i++) {
-  let h = document.createElement("span");
-  h.innerHTML = "❤️";
-  h.style.left = Math.random() * 100 + "vw";
-  h.style.animationDuration = 8 + Math.random() * 8 + "s";
-  document.querySelector(".hearts").appendChild(h);
-}
-
-/* Button logic */
-function handleClick() {
-  if (!localStorage.getItem("rose")) {
-    rosePopup.style.display = "flex";
-  } else if (!localStorage.getItem("second")) {
-    congratsPopup.style.display = "flex";
-  } else {
-    alert("All unlocked 😌 wait for next days");
-  }
-}
-
-/* Unlock Rose Day */
-function unlockRose() {
-  if (roseAns.value.toLowerCase().trim() === "baby") {
-    localStorage.setItem("rose", true);
-    rosePopup.style.display = "none";
-    alert("🌹 Rose Day unlocked ❤️");
-  } else {
-    alert("Wrong 😌 try again");
-  }
-}
-
-/* Balloon pop */
-function popBalloon() {
-  congratsPopup.style.display = "none";
-  animePopup.style.display = "flex";
-}
-
-/* Unlock second */
-function unlockSecond() {
-  if (animeAns.value.toLowerCase().trim() === "maomao") {
-    localStorage.setItem("second", true);
-    animePopup.style.display = "none";
-    window.location.href = "propose.html";
-  } else {
-    alert("Wrong dumbass 😭 try again");
-  }
-}
-
-</script>
+    /* Go to Rose page */
+    function goToRose() {
+      window.location.href = "rose.html";
+    }
+  </script>
 
 </body>
 </html>
