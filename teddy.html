@@ -4,93 +4,140 @@
 <meta charset="UTF-8">
 <title>Teddy Day 💕</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
 <style>
+
+/* Romantic Pink Background */
 body {
     margin: 0;
     overflow: hidden;
     font-family: 'Poppins', sans-serif;
-    text-align: center;
-
-    /* Strong pink animated background */
-    background: linear-gradient(-45deg, #ff1493, #ff69b4, #ff85a2, #ffb6c1);
-    background-size: 400% 400%;
-    animation: gradientBG 8s ease infinite;
-
-    min-height: 100vh;
+    background: linear-gradient(135deg, #ff9ec4, #ffc1da, #ffd6e8);
+    height: 100vh;
 }
 
+/* ========================= */
+/* Smaller Pink Question Card */
+/* ========================= */
 
-
-@keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-/* Question Box */
-#questionBox {
+#questionWrapper {
     position: absolute;
-    top: 35%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-input {
-    padding: 12px;
-    font-size: 18px;
-    border-radius: 10px;
-    border: none;
+#questionCard {
+    background: linear-gradient(135deg, #ff6fa5, #ff8fb1);
+    padding: 40px 35px;
+    border-radius: 28px;
     text-align: center;
+    width: 320px; /* smaller */
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
 }
 
-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 20px;
-    border: none;
-    background: #ff4d6d;
+/* Cute Script Heading */
+#questionCard h1 {
+    font-family: 'Pacifico', cursive;
     color: white;
+    font-size: 22px; /* smaller text */
+    margin-bottom: 25px;
+}
+
+/* Input */
+#questionCard input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 15px;
+    border: none;
+    font-size: 14px;
+    margin-bottom: 20px;
+    text-align: center;
+    background: #ffe6f0;
+    outline: none;
+}
+
+/* Button */
+#questionCard button {
+    padding: 10px 28px;
+    border-radius: 25px;
+    border: none;
+    background: white;
+    color: #ff4d88;
+    font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
+    transition: 0.3s;
 }
 
-button:hover {
-    background: #e6004c;
+#questionCard button:hover {
+    transform: scale(1.08);
 }
 
-/* Instruction Message */
+/* ========================= */
+/* Game Section */
+/* ========================= */
+
 #instruction {
     display: none;
     position: absolute;
-    top: 15%;
+    top: 12%;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 26px;
+    font-size: 24px;
     font-weight: bold;
     color: white;
-    text-shadow: 2px 2px 10px rgba(0,0,0,0.4);
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
 }
 
-/* Teddy */
 #teddy {
     position: absolute;
-    font-size: 90px;
+    font-size: 120px;
     cursor: pointer;
     display: none;
-    transition: 0.2s;
+    transition: 0.3s;
+    text-shadow: 0 0 25px rgba(255,255,255,0.8);
 }
 
-/* Celebration Message */
+#teddy::after {
+    content: "❤️";
+    position: absolute;
+    font-size: 40px;
+    right: -20px;
+    bottom: 10px;
+    animation: heartBeat 1s infinite;
+}
+
+@keyframes heartBeat {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+/* Final Message */
 #note {
     display: none;
     position: absolute;
     top: 35%;
     left: 50%;
-    transform: translateX(-50%);
-    font-size: 24px;
+    transform: translate(-50%, 0%);
+    font-size: 22px;
     color: white;
     font-weight: bold;
-    text-shadow: 2px 2px 15px rgba(0,0,0,0.5);
+    text-align: center;
+    text-shadow: 2px 2px 15px rgba(0,0,0,0.4);
+    opacity: 0;
+}
+
+.fadeIn {
+    animation: fadeIn 2s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translate(-50%, -30%); }
+    to { opacity: 1; transform: translate(-50%, 0%); }
 }
 
 /* Sparkles */
@@ -107,25 +154,43 @@ button:hover {
     100% {opacity: 0; transform: scale(4);}
 }
 
+/* Falling Petals */
+@keyframes fall {
+    to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
 /* Next Button */
 #nextBtn {
     display: none;
     position: fixed;
     bottom: 20px;
     right: 20px;
+    padding: 10px 22px;
+    border-radius: 20px;
+    border: none;
+    background: #ff4d88;
+    color: white;
+    cursor: pointer;
 }
+
 </style>
 </head>
 
 <body>
 
-<div id="questionBox">
-    <h2>🌸 My favourite flower? 🌸</h2>
-    <input type="text" id="flowerAnswer" placeholder="Type your answer">
-    <br><br>
-    <button onclick="checkAnswer()">Submit</button>
+<!-- Question Card -->
+<div id="questionWrapper">
+    <div id="questionCard">
+        <h1>Which is my favourite dessert? 😊</h1>
+        <input type="text" id="flowerAnswer" placeholder="Type your answer">
+        <button onclick="checkAnswer()">Submit 💖</button>
+    </div>
 </div>
 
+<!-- Game -->
 <div id="instruction">
     🧸 Catch the teddy for a surprise 💕
 </div>
@@ -147,8 +212,8 @@ button:hover {
 function checkAnswer() {
     const answer = document.getElementById("flowerAnswer").value.toLowerCase();
     
-    if (answer === "lily") {
-        document.getElementById("questionBox").style.display = "none";
+    if (answer === "ice cream") { // change to your answer
+        document.getElementById("questionWrapper").style.display = "none";
         document.getElementById("instruction").style.display = "block";
         startGame();
     } else {
@@ -165,16 +230,21 @@ function startGame() {
 }
 
 function moveTeddy() {
-    const x = Math.random() * (window.innerWidth - 100);
-    const y = Math.random() * (window.innerHeight - 100);
+    const x = Math.random() * (window.innerWidth - 150);
+    const y = Math.random() * (window.innerHeight - 150);
     teddy.style.left = x + "px";
     teddy.style.top = y + "px";
+    teddy.style.transform = "scale(" + (0.8 + Math.random()*0.4) + ")";
 }
 
 teddy.addEventListener("click", function() {
     teddy.style.display = "none";
     document.getElementById("instruction").style.display = "none";
-    document.getElementById("note").style.display = "block";
+    
+    const note = document.getElementById("note");
+    note.style.display = "block";
+    note.classList.add("fadeIn");
+
     document.getElementById("nextBtn").style.display = "block";
     createSparkles();
 });
@@ -187,12 +257,25 @@ function createSparkles() {
         sparkle.style.left = Math.random() * window.innerWidth + "px";
         sparkle.style.top = Math.random() * window.innerHeight + "px";
         document.body.appendChild(sparkle);
-
-        setTimeout(() => {
-            sparkle.remove();
-        }, 1000);
+        setTimeout(() => sparkle.remove(), 1000);
     }
 }
+
+function createPetals() {
+    setInterval(() => {
+        const petal = document.createElement("div");
+        petal.innerHTML = "🌸";
+        petal.style.position = "absolute";
+        petal.style.left = Math.random() * window.innerWidth + "px";
+        petal.style.top = "-20px";
+        petal.style.fontSize = "24px";
+        petal.style.animation = "fall 5s linear forwards";
+        document.body.appendChild(petal);
+        setTimeout(() => petal.remove(), 5000);
+    }, 300);
+}
+
+createPetals();
 
 </script>
 
