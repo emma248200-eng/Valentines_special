@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Teddy Day 💕</title>
+
+<style>
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+
+    /* Strong pink animated background */
+    background: linear-gradient(-45deg, #ff1493, #ff69b4, #ff85a2, #ffb6c1);
+    background-size: 400% 400%;
+    animation: gradientBG 8s ease infinite;
+
+    min-height: 100vh;
+}
+
+
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Question Box */
+#questionBox {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+}
+
+input {
+    padding: 12px;
+    font-size: 18px;
+    border-radius: 10px;
+    border: none;
+    text-align: center;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 20px;
+    border: none;
+    background: #ff4d6d;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #e6004c;
+}
+
+/* Instruction Message */
+#instruction {
+    display: none;
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 26px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.4);
+}
+
+/* Teddy */
+#teddy {
+    position: absolute;
+    font-size: 90px;
+    cursor: pointer;
+    display: none;
+    transition: 0.2s;
+}
+
+/* Celebration Message */
+#note {
+    display: none;
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 24px;
+    color: white;
+    font-weight: bold;
+    text-shadow: 2px 2px 15px rgba(0,0,0,0.5);
+}
+
+/* Sparkles */
+.sparkle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    animation: sparkleAnim 1s linear forwards;
+}
+
+@keyframes sparkleAnim {
+    0% {opacity: 1; transform: scale(1);}
+    100% {opacity: 0; transform: scale(4);}
+}
+
+/* Next Button */
+#nextBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="questionBox">
+    <h2>🌸 My favourite flower? 🌸</h2>
+    <input type="text" id="flowerAnswer" placeholder="Type your answer">
+    <br><br>
+    <button onclick="checkAnswer()">Submit</button>
+</div>
+
+<div id="instruction">
+    🧸 Catch the teddy for a surprise 💕
+</div>
+
+<div id="teddy">🧸</div>
+
+<div id="note">
+    🎉 YOU CAUGHT ME!! 🎉<br><br>
+    No matter how fast life runs,<br>
+    I promise I’ll always choose you. 💖
+</div>
+
+<button id="nextBtn" onclick="location.href='promise.html'">
+    Next →
+</button>
+
+<script>
+
+function checkAnswer() {
+    const answer = document.getElementById("flowerAnswer").value.toLowerCase();
+    
+    if (answer === "lily") {
+        document.getElementById("questionBox").style.display = "none";
+        document.getElementById("instruction").style.display = "block";
+        startGame();
+    } else {
+        alert("Wrong 😝 Try again cutie.");
+    }
+}
+
+const teddy = document.getElementById("teddy");
+
+function startGame() {
+    teddy.style.display = "block";
+    moveTeddy();
+    setInterval(moveTeddy, 700);
+}
+
+function moveTeddy() {
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 100);
+    teddy.style.left = x + "px";
+    teddy.style.top = y + "px";
+}
+
+teddy.addEventListener("click", function() {
+    teddy.style.display = "none";
+    document.getElementById("instruction").style.display = "none";
+    document.getElementById("note").style.display = "block";
+    document.getElementById("nextBtn").style.display = "block";
+    createSparkles();
+});
+
+function createSparkles() {
+    for (let i = 0; i < 70; i++) {
+        const sparkle = document.createElement("div");
+        sparkle.classList.add("sparkle");
+        sparkle.style.background = `hsl(${Math.random()*360}, 100%, 70%)`;
+        sparkle.style.left = Math.random() * window.innerWidth + "px";
+        sparkle.style.top = Math.random() * window.innerHeight + "px";
+        document.body.appendChild(sparkle);
+
+        setTimeout(() => {
+            sparkle.remove();
+        }, 1000);
+    }
+}
+
+</script>
+
+</body>
+</html>
