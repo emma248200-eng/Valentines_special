@@ -14,6 +14,59 @@ body{
   background: linear-gradient(to top, #ff9ecf, #ffc2dd, #ffd6ea);
 }
 
+/* LOCK SCREEN */
+#lockScreen{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:linear-gradient(to top, #ff9ecf, #ffc2dd);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:1000;
+}
+
+.lockBox{
+  background:white;
+  padding:30px;
+  border-radius:20px;
+  text-align:center;
+  box-shadow:0 15px 40px rgba(0,0,0,0.3);
+}
+
+.lockBox h2{
+  color:#c2185b;
+}
+
+.lockBox input{
+  padding:10px;
+  width:200px;
+  border-radius:10px;
+  border:1px solid #ccc;
+  margin-top:10px;
+  text-align:center;
+}
+
+.lockBox button{
+  margin-top:15px;
+  padding:10px 20px;
+  border:none;
+  border-radius:20px;
+  background:#ff4d94;
+  color:white;
+  cursor:pointer;
+}
+
+.lockBox button:hover{
+  background:#e60073;
+}
+
+#errorMsg{
+  color:red;
+  margin-top:10px;
+  font-size:14px;
+}
+
 /* Sky */
 .sky{
   position:absolute;
@@ -98,7 +151,6 @@ body{
   filter: drop-shadow(0 0 8px gold);
 }
 
-/* Tiny visible paper */
 .secret::after{
   content:"📜";
   position:absolute;
@@ -153,6 +205,18 @@ body{
 
 <body>
 
+<!-- LOCK SCREEN -->
+<div id="lockScreen">
+  <div class="lockBox">
+    <h2>Answer to Unlock ❤️</h2>
+    <p>Which is my fav color?</p>
+    <input type="text" id="answer" placeholder="Type your answer...">
+    <br>
+    <button onclick="checkAnswer()">Unlock</button>
+    <div id="errorMsg"></div>
+  </div>
+</div>
+
 <div class="sky"></div>
 <div class="sun"></div>
 
@@ -166,7 +230,7 @@ body{
 <div id="letter">
   <h2>My Love ❤️</h2>
   <p>
-  All the other flowers seem dull in front of you.<br><br>
+    All the other flowers seem dull in front of you.<br><br>
     For me you're the most handsome/beautiful flower Shubhu.<br><br>
     I love you so much babyyy.
   </p>
@@ -175,6 +239,17 @@ body{
 <button id="nextBtn" onclick="goNext()">Next →</button>
 
 <script>
+
+function checkAnswer(){
+  const input = document.getElementById("answer").value.trim().toLowerCase();
+  
+  if(input === "blue"){
+    document.getElementById("lockScreen").style.display = "none";
+  } else {
+    document.getElementById("errorMsg").innerText = "Hmm... try again baby 💭";
+  }
+}
+
 const garden = document.getElementById("garden");
 const totalRoses = 120;
 const secretIndex = Math.floor(Math.random() * totalRoses);
@@ -197,6 +272,7 @@ for(let i=0; i<totalRoses; i++){
 function goNext(){
   window.location.href = "propose.html";
 }
+
 </script>
 
 </body>
