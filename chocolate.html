@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Chocolate Day 🍫</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400&display=swap" rel="stylesheet">
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    height: 100vh;
+    background: linear-gradient(135deg, #5a2d0c, #8b4513);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    font-family: 'Pacifico', cursive;
+    overflow: hidden;
+    position: relative;
+  }
+
+  h1 {
+    position: absolute;
+    top: 30px;
+    font-size: 34px;
+  }
+
+  /* Question box */
+  #question-box {
+    background: rgba(255,255,255,0.15);
+    padding: 25px;
+    border-radius: 20px;
+    backdrop-filter: blur(8px);
+  }
+
+  input {
+    padding: 10px;
+    border-radius: 12px;
+    border: none;
+    outline: none;
+    width: 220px;
+    text-align: center;
+    margin-top: 10px;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  button {
+    margin-top: 12px;
+    padding: 10px 18px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    background: #ff4d6d;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  /* Chocolate section */
+  #choco-container {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #eat-msg {
+    margin-bottom: 15px;
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
+  }
+
+  #chocolate {
+    font-size: 150px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  /* Wrapper message */
+  #wrapper-msg {
+    display: none;
+    background: #f5deb3;
+    color: #5a2d0c;
+    padding: 25px;
+    border-radius: 15px;
+    width: 300px;
+    margin-top: 20px;
+    font-family: 'Poppins', sans-serif;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  }
+
+  /* Next button */
+  #next-btn {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    padding: 14px 22px;
+    border-radius: 30px;
+    border: none;
+    background: #ff4d6d;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    display: none;
+    animation: pop 1.5s infinite;
+  }
+
+  @keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+  }
+
+</style>
+</head>
+
+<body>
+
+<h1>Happy Chocolate Day 🍫</h1>
+
+<!-- Question -->
+<div id="question-box">
+  <p>Which is my favourite dessert? 😌</p>
+  <input type="text" id="answer" placeholder="Type your answer">
+  <br>
+  <button onclick="checkAnswer()">Submit 💖</button>
+</div>
+
+<!-- Chocolate Section -->
+<div id="choco-container">
+  <div id="eat-msg">Click to eat 😋</div>
+  <div id="chocolate" onclick="eatChocolate()">🍫</div>
+
+  <div id="wrapper-msg">
+    <h3>Sweet Note 💌</h3>
+    <p>
+      Just like chocolate melts in your mouth,  
+      you melt my heart effortlessly.  
+      Every bite reminds me how sweet  
+      life is with you in it.
+    </p>
+  </div>
+</div>
+
+<button id="next-btn" onclick="goNext()">Next 🧸</button>
+
+<script>
+  let size = 150;
+
+  function checkAnswer() {
+    const ans = document.getElementById("answer").value.toLowerCase().trim();
+    if (ans === "ice cream") {
+      document.getElementById("question-box").style.display = "none";
+      document.getElementById("choco-container").style.display = "flex";
+    } else {
+      alert("Wrong 😌 think sweeter");
+    }
+  }
+
+  function eatChocolate() {
+    const choco = document.getElementById("chocolate");
+    size -= 15;
+    choco.style.fontSize = size + "px";
+
+    if (size <= 0) {
+      choco.style.display = "none";
+      document.getElementById("eat-msg").style.display = "none";
+      document.getElementById("wrapper-msg").style.display = "block";
+      document.getElementById("next-btn").style.display = "block";
+    }
+  }
+
+  function goNext() {
+    window.location.href = "teddy.html";
+  }
+</script>
+
+</body>
+</html>
