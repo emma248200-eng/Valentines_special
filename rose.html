@@ -1,241 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Rose Day 🌹</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rose Garden</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<style>
+body{
+  margin:0;
+  overflow:hidden;
+  font-family: 'Georgia', serif;
+  height:100vh;
+  background: linear-gradient(to top, #ff9ecf, #ffc2dd, #ffd6ea);
+}
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Pacifico', cursive;
-    }
+/* Sky */
+.sky{
+  position:absolute;
+  top:0;
+  width:100%;
+  height:60%;
+  background: radial-gradient(circle at center, #ff85c1 0%, #ffb3d9 40%, transparent 70%);
+}
 
-    body {
-      height: 100vh;
-      background: linear-gradient(135deg, #ff6a88, #ff99ac);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      color: white;
-      text-align: center;
-    }
+/* Heart Sun */
+.sun{
+  position:absolute;
+  top:70px;
+  left:50%;
+  transform:translateX(-50%) rotate(-45deg);
+  width:120px;
+  height:120px;
+  background:#ff4d94;
+  box-shadow:0 0 60px #ff4d94;
+}
+.sun:before,
+.sun:after{
+  content:"";
+  position:absolute;
+  width:120px;
+  height:120px;
+  background:#ff4d94;
+  border-radius:50%;
+}
+.sun:before{ top:-60px; left:0; }
+.sun:after{ left:60px; top:0; }
 
-    /* MAIN CONTENT (locked initially) */
-    #mainContent {
-      display: none;
-      position: relative;
-      width: 100%;
-      height: 100%;
-    }
+/* Instruction */
+#instruction{
+  position:absolute;
+  top:20px;
+  width:100%;
+  text-align:center;
+  font-size:24px;
+  color:#7a003c;
+  font-weight:bold;
+  text-shadow:1px 1px 5px white;
+}
 
-    h1 {
-      position: absolute;
-      top: 30px;
-      width: 100%;
-      font-size: 36px;
-      text-shadow: 0 0 10px rgba(255,255,255,0.6);
-    }
+/* Garden */
+.garden{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  height:60%;
+  background:linear-gradient(to top, #0f5c2e, #1e7c3a);
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-items:flex-end;
+  padding-bottom:30px;
+}
 
-    #helper {
-      position: absolute;
-      top: 90px;
-      width: 100%;
-      font-size: 18px;
-      opacity: 0.85;
-      animation: pulse 1.5s infinite;
-    }
+/* Roses */
+.rose{
+  width:45px;
+  height:45px;
+  margin:10px;
+  position:relative;
+  cursor:pointer;
+  animation:sway 3s infinite ease-in-out;
+}
 
-    @keyframes pulse {
-      0% { opacity: 0.4; }
-      50% { opacity: 1; }
-      100% { opacity: 0.4; }
-    }
+.rose::before{
+  content:"🌹";
+  font-size:45px;
+}
 
-    /* ROSE */
-    #rose-container {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      cursor: pointer;
-    }
+@keyframes sway{
+  0%{transform:rotate(-3deg);}
+  50%{transform:rotate(3deg);}
+  100%{transform:rotate(-3deg);}
+}
 
-    #rose {
-      font-size: 150px;
-      transition: transform 1.2s ease, filter 1.2s ease;
-    }
+/* Secret Rose Glow */
+.secret{
+  filter: drop-shadow(0 0 8px gold);
+}
 
-    #rose.bloom {
-      transform: scale(1.4) rotate(6deg);
-      filter: drop-shadow(0 0 30px rgba(255, 0, 100, 0.8));
-    }
+/* Tiny visible paper */
+.secret::after{
+  content:"📜";
+  position:absolute;
+  top:-10px;
+  right:-5px;
+  font-size:16px;
+  transform:rotate(15deg);
+}
 
-    #rose-message {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 230px;
-      font-size: 16px;
-      opacity: 0;
-      transition: opacity 1.3s ease;
-      pointer-events: none;
-    }
+/* Letter Popup */
+#letter{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) scale(0);
+  width:320px;
+  background:#fff0f5;
+  padding:25px;
+  border-radius:15px;
+  box-shadow:0 15px 40px rgba(0,0,0,0.3);
+  transition:0.5s ease;
+  text-align:center;
+}
 
-    #rose-message.show {
-      opacity: 1;
-    }
+#letter h2{
+  margin-top:0;
+  color:#c2185b;
+}
 
-    /* NEXT BUTTON */
-    #nextBtn {
-      position: fixed;
-      bottom: 25px;
-      right: 25px;
-      background: #ff3b6f;
-      color: white;
-      border: none;
-      padding: 14px 24px;
-      border-radius: 30px;
-      font-size: 16px;
-      cursor: pointer;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-      display: none;
-      animation: pop 1.5s infinite;
-    }
+/* Next Button */
+#nextBtn{
+  position:absolute;
+  bottom:20px;
+  right:20px;
+  padding:12px 25px;
+  background:#ff4d94;
+  color:white;
+  border:none;
+  border-radius:25px;
+  font-size:16px;
+  cursor:pointer;
+  box-shadow:0 5px 15px rgba(0,0,0,0.3);
+  transition:0.3s;
+}
 
-    @keyframes pop {
-      50% { transform: scale(1.08); }
-    }
-
-    /* QUESTION POPUP */
-    .popup {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.45);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 10;
-    }
-
-    .box {
-      background: white;
-      color: black;
-      padding: 25px;
-      border-radius: 18px;
-      width: 300px;
-      text-align: center;
-    }
-
-    .box input {
-      width: 90%;
-      padding: 8px;
-      margin: 12px 0;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-    }
-
-    .box button {
-      background: #ff4d6d;
-      color: white;
-      border: none;
-      padding: 8px 18px;
-      border-radius: 20px;
-      cursor: pointer;
-    }
-
-    /* FLOATING HEARTS */
-    .heart {
-      position: absolute;
-      bottom: -20px;
-      font-size: 18px;
-      animation: float 8s linear infinite;
-      opacity: 0.7;
-    }
-
-    @keyframes float {
-      from { transform: translateY(0); }
-      to { transform: translateY(-120vh); }
-    }
-  </style>
+#nextBtn:hover{
+  background:#e60073;
+  transform:scale(1.05);
+}
+</style>
 </head>
 
 <body>
 
-  <!-- QUESTION FIRST -->
-  <div class="popup" id="questionPopup">
-    <div class="box">
-      <p>Which is my favourite anime female lead? 😌</p>
-      <input id="answer" placeholder="Your answer">
-      <button onclick="unlockPage()">Unlock 🌹</button>
-    </div>
-  </div>
+<div class="sky"></div>
+<div class="sun"></div>
 
-  <!-- MAIN ROSE CONTENT -->
-  <div id="mainContent">
-    <h1>Happy Rose Day, my cutie 🌹</h1>
-    <div id="helper">Click the rose 🌹</div>
+<div id="instruction">
+  {ROSE DAY} <br>
+  🌹 Find the note in these roses 🌹
+</div>
 
-    <div id="rose-container" onclick="bloomRose()">
-      <div id="rose">🥀</div>
-      <div id="rose-message">
-        For my cutie 💖<br>
-        Just like this rose,<br>
-        my love blooms only for you 🌸
-      </div>
-    </div>
+<div class="garden" id="garden"></div>
 
-    <button id="nextBtn" onclick="goNext()">Next 💍</button>
-  </div>
+<div id="letter">
+  <h2>My Love ❤️</h2>
+  <p>
+  All the other flowers seem dull in front of you.<br><br>
+    For me you're the most handsome/beautiful flower Shubhu.<br><br>
+    I love you so much babyyy.
+  </p>
+</div>
 
-  <script>
-    /* Hearts */
-    setInterval(() => {
-      const h = document.createElement("div");
-      h.className = "heart";
-      h.innerHTML = "💖";
-      h.style.left = Math.random() * 100 + "vw";
-      h.style.animationDuration = Math.random() * 4 + 6 + "s";
-      document.body.appendChild(h);
-      setTimeout(() => h.remove(), 8000);
-    }, 300);
+<button id="nextBtn" onclick="goNext()">Next →</button>
 
-    /* Unlock page */
-    function unlockPage() {
-      const ans = document.getElementById("answer").value
-        .toLowerCase()
-        .trim()
-        .replace(/\s+/g, "");
+<script>
+const garden = document.getElementById("garden");
+const totalRoses = 120;
+const secretIndex = Math.floor(Math.random() * totalRoses);
 
-      if (ans === "maomao") {
-        document.getElementById("questionPopup").style.display = "none";
-        document.getElementById("mainContent").style.display = "block";
-      } else {
-        alert("Wrong dumbass 😭 try again");
-      }
-    }
+for(let i=0; i<totalRoses; i++){
+  let rose = document.createElement("div");
+  rose.classList.add("rose");
 
-    /* Bloom rose */
-    function bloomRose() {
-      const rose = document.getElementById("rose");
-      rose.innerHTML = "🌹";
-      rose.classList.add("bloom");
-      document.getElementById("rose-message").classList.add("show");
-      document.getElementById("helper").style.display = "none";
-      document.getElementById("nextBtn").style.display = "block";
-      document.getElementById("rose-container").onclick = null;
-    }
+  if(i === secretIndex){
+    rose.classList.add("secret");
+    rose.addEventListener("click", ()=>{
+      document.getElementById("letter").style.transform =
+      "translate(-50%,-50%) scale(1)";
+    });
+  }
 
-    /* Next page */
-    function goNext() {
-      window.location.href = "propose.html";
-    }
-  </script>
+  garden.appendChild(rose);
+}
+
+function goNext(){
+  window.location.href = "propose.html";
+}
+</script>
 
 </body>
 </html>
