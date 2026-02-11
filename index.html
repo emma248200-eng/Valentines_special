@@ -1,119 +1,303 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>For My Cutie ❤️</title>
+<meta charset="UTF-8">
+<title>For My Cutie</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Handwriting font -->
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-      overflow: hidden;
-      font-family: 'Poppins', sans-serif;
-    }
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
 
-    /* Center content */
-    .content {
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      position: relative;
-      z-index: 2;
-      flex-direction: column;
-    }
+body{
+  overflow:hidden;
+  background:linear-gradient(to top,#87ceeb 0%, #fbd3e9 100%);
+  font-family:'Poppins',sans-serif;
+  touch-action:none;
+}
 
-    h1 {
-      font-family: 'Great Vibes', cursive;
-      font-size: 3.4rem;
-      color: white;
-      text-shadow: 0 5px 15px rgba(0,0,0,0.25);
-      margin-bottom: 40px;
-    }
+/* Header */
+.header{
+  position:absolute;
+  top:20px;
+  width:100%;
+  text-align:center;
+  z-index:5;
+}
 
-    /* Floating hearts */
-    .hearts span {
-      position: absolute;
-      bottom: -20px;
-      font-size: 22px;
-      animation: float 12s linear infinite;
-      opacity: 0.6;
-    }
+h1{
+  font-family:'Great Vibes',cursive;
+  font-size:2.5rem;
+  color:white;
+  text-shadow:0 4px 12px rgba(0,0,0,0.3);
+}
 
-    @keyframes float {
-      from { transform: translateY(0); }
-      to { transform: translateY(-120vh); }
-    }
+/* Next button bottom right */
+.next-btn{
+  position:absolute;
+  bottom:25px;
+  right:25px;
+  padding:12px 28px;
+  border:none;
+  border-radius:30px;
+  background:#ff4d6d;
+  color:white;
+  cursor:pointer;
+  box-shadow:0 10px 25px rgba(0,0,0,0.3);
+  z-index:20;
+}
 
-    /* Next button */
-    .next-btn {
-      background: #ff4d6d;
-      color: white;
-      border: none;
-      padding: 15px 28px;
-      border-radius: 30px;
-      font-size: 1rem;
-      cursor: pointer;
-      box-shadow: 0 12px 25px rgba(0,0,0,0.25);
-      animation: pulse 2s infinite;
-    }
+/* Ground */
+.ground{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  height:120px;
+  background:linear-gradient(#4caf50,#2e7d32);
+}
 
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.08); }
-      100% { transform: scale(1); }
-    }
-  </style>
+/* Try again */
+.retry{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  font-size:1.8rem;
+  color:white;
+  display:none;
+  z-index:15;
+}
+
+/* Letter */
+.letter{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) scale(0);
+  background:white;
+  width:90%;
+  max-width:420px;
+  padding:40px;
+  border-radius:20px;
+  box-shadow:0 20px 50px rgba(0,0,0,0.4);
+  text-align:center;
+  transition:0.6s ease;
+  z-index:25;
+}
+
+.letter.show{
+  transform:translate(-50%,-50%) scale(1);
+}
+
+.letter h2{
+  font-family:'Great Vibes',cursive;
+  font-size:2rem;
+  color:#ff4d6d;
+  margin-bottom:15px;
+}
+
+/* Floating side hearts */
+.side-hearts{
+  position:absolute;
+  top:0;
+  width:80px;
+  height:100%;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:22;
+}
+
+.left-hearts{ left:0; }
+.right-hearts{ right:0; }
+
+.side-hearts span{
+  position:absolute;
+  color:#ff4d6d;
+  font-size:20px;
+  animation:floatUp 4s linear infinite;
+}
+
+@keyframes floatUp{
+  from{ transform:translateY(100vh); opacity:1; }
+  to{ transform:translateY(-10vh); opacity:0; }
+}
+
+canvas{ display:block; }
+</style>
 </head>
 
 <body>
 
-  <!-- Floating hearts -->
-  <div class="hearts"></div>
+<div class="header">
+  <h1 id="text"></h1>
+</div>
 
-  <!-- Main content -->
-  <div class="content">
-    <h1 id="text"></h1>
+<button class="next-btn" id="nextBtn">Next</button>
 
-    <button class="next-btn" onclick="goToRose()">
-      Next 🌹
-    </button>
-  </div>
+<canvas id="game"></canvas>
+<div class="ground"></div>
+<div class="retry" id="retry">Try Again</div>
 
-  <script>
-    /* Typing effect */
-    const message = "A beautiful Valentine’s Week for my cutie ❤️";
-    let i = 0;
+<div class="letter" id="letter">
+  <h2>Love Letter</h2>
+  <p>
+  A special gift for my cutu by his girlfriend.<br><br>
+  Hope you'll lovee itt… yayyyy.
+  </p>
+</div>
 
-    function typeText() {
-      if (i < message.length) {
-        document.getElementById("text").innerHTML += message.charAt(i);
-        i++;
-        setTimeout(typeText, 90);
-      }
-    }
-    typeText();
+<div class="side-hearts left-hearts" id="leftHearts"></div>
+<div class="side-hearts right-hearts" id="rightHearts"></div>
 
-    /* Floating hearts generator */
-    const hearts = document.querySelector(".hearts");
-    for (let i = 0; i < 25; i++) {
-      const span = document.createElement("span");
-      span.innerHTML = "❤️";
-      span.style.left = Math.random() * 100 + "vw";
-      span.style.animationDuration = 8 + Math.random() * 8 + "s";
-      hearts.appendChild(span);
-    }
+<script>
 
-    /* Go to Rose page */
-    function goToRose() {
-      window.location.href = "rose.html";
-    }
-  </script>
+/* SAFE REDIRECT */
+document.getElementById("nextBtn").addEventListener("click", function(){
+  window.location.href = "./rose.html";
+});
 
+/* Typing heading */
+const message="Catch the heart from the sky";
+let i=0;
+function typeText(){
+  if(i<message.length){
+    document.getElementById("text").innerHTML+=message.charAt(i);
+    i++;
+    setTimeout(typeText,70);
+  }
+}
+typeText();
+
+/* Canvas setup */
+const canvas=document.getElementById("game");
+const ctx=canvas.getContext("2d");
+
+function resizeCanvas(){
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener("resize",resizeCanvas);
+
+/* Basket starts LEFT */
+let basket={
+  x:20,
+  y:window.innerHeight-180,
+  width:120,
+  height:40,
+  speed:8
+};
+
+let heart={
+  x:window.innerWidth/2,
+  y:120,
+  dy:3
+};
+
+let gameOver=false;
+
+/* Desktop controls */
+let keys={};
+document.addEventListener("keydown",e=>keys[e.key]=true);
+document.addEventListener("keyup",e=>keys[e.key]=false);
+
+/* MOBILE TOUCH CONTROL */
+document.addEventListener("touchmove", function(e){
+  let touchX = e.touches[0].clientX;
+  basket.x = touchX - basket.width/2;
+});
+
+/* Draw balloon */
+function drawBalloon(){
+  ctx.beginPath();
+  ctx.arc(canvas.width/2,80,40,0,Math.PI*2);
+  ctx.fillStyle="#ff4d6d";
+  ctx.fill();
+  ctx.fillStyle="#333";
+  ctx.fillRect(canvas.width/2-20,120,40,25);
+}
+
+/* Draw basket */
+function drawBasket(){
+  ctx.fillStyle="#8b5a2b";
+  ctx.fillRect(basket.x,basket.y,basket.width,basket.height);
+}
+
+/* Draw heart */
+function drawHeart(){
+  ctx.fillStyle="#ff4d6d";
+  ctx.beginPath();
+  ctx.moveTo(heart.x,heart.y);
+  ctx.bezierCurveTo(heart.x-20,heart.y-20,heart.x-40,heart.y+10,heart.x,heart.y+40);
+  ctx.bezierCurveTo(heart.x+40,heart.y+10,heart.x+20,heart.y-20,heart.x,heart.y);
+  ctx.fill();
+}
+
+function createSideHearts(){
+  const left=document.getElementById("leftHearts");
+  const right=document.getElementById("rightHearts");
+
+  for(let i=0;i<15;i++){
+    const h=document.createElement("span");
+    h.innerHTML="❤";
+    h.style.left=Math.random()*60+"px";
+    h.style.animationDuration=(3+Math.random()*3)+"s";
+    left.appendChild(h.cloneNode(true));
+    right.appendChild(h);
+  }
+}
+
+function resetHeart(){
+  heart.y=120;
+  heart.x=Math.random()*(canvas.width-100)+50;
+  document.getElementById("retry").style.display="none";
+  gameOver=false;
+  update();
+}
+
+function update(){
+  if(gameOver) return;
+
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  drawBalloon();
+  drawBasket();
+  drawHeart();
+
+  /* Desktop movement */
+  if(keys["ArrowLeft"]||keys["a"]) basket.x-=basket.speed;
+  if(keys["ArrowRight"]||keys["d"]) basket.x+=basket.speed;
+
+  basket.x=Math.max(0,Math.min(canvas.width-basket.width,basket.x));
+
+  heart.y+=heart.dy;
+
+  /* Catch */
+  if(
+    heart.y+40>=basket.y &&
+    heart.x>=basket.x &&
+    heart.x<=basket.x+basket.width
+  ){
+    document.getElementById("letter").classList.add("show");
+    createSideHearts();
+    gameOver=true;
+    return;
+  }
+
+  /* Miss */
+  if(heart.y>canvas.height-120){
+    document.getElementById("retry").style.display="block";
+    gameOver=true;
+    setTimeout(resetHeart,1500);
+    return;
+  }
+
+  requestAnimationFrame(update);
+}
+
+update();
+
+</script>
 </body>
 </html>
