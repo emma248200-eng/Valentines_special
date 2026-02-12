@@ -1,1 +1,302 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hug Day 🤍</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  height:100vh;
+  overflow:hidden;
+  background:linear-gradient(to top,#0f2027,#203a43,#2c5364);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:white;
+  position:relative;
+}
+
+/* Floating Stars */
+.star{
+  position:absolute;
+  width:3px;
+  height:3px;
+  background:white;
+  border-radius:50%;
+  box-shadow:0 0 8px rgba(255,255,255,0.8);
+  opacity:0.9;
+  animation:floatStar linear infinite, twinkle 2s ease-in-out infinite alternate;
+}
+
+@keyframes floatStar{
+  from{ transform:translateY(-10vh); }
+  to{ transform:translateY(110vh); }
+}
+
+@keyframes twinkle{
+  from{opacity:0.3;}
+  to{opacity:1;}
+}
+
+/* Lock Screen */
+.lock-screen{
+  position:absolute;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  background:linear-gradient(to top,#0f2027,#203a43,#2c5364);
+  z-index:5;
+  text-align:center;
+  padding:20px;
+}
+
+.lock-screen h2{
+  margin-bottom:20px;
+  font-size:1.3rem;
+}
+
+.lock-screen input{
+  padding:10px;
+  border:none;
+  border-radius:20px;
+  outline:none;
+  text-align:center;
+}
+
+.lock-screen button{
+  margin-top:15px;
+  padding:8px 20px;
+  border:none;
+  border-radius:20px;
+  background:#ff9ecf;
+  cursor:pointer;
+}
+
+.error{
+  margin-top:10px;
+  color:#ffb3c6;
+  font-size:0.9rem;
+}
+
+/* Main Content */
+.container{
+  text-align:center;
+  z-index:2;
+  display:none;
+}
+
+/* Cursive Heading */
+.heading{
+  font-family:'Great Vibes',cursive;
+  font-size:2.5rem;
+  margin-bottom:20px;
+}
+
+/* Silhouette */
+.silhouette{
+  width:160px;
+  height:260px;
+  background:linear-gradient(to bottom,#111,#000);
+  border-radius:80px 80px 40px 40px;
+  margin:auto;
+  position:relative;
+  transition:0.4s ease;
+}
+
+/* Arms */
+.arm{
+  width:120px;
+  height:30px;
+  background:#000;
+  position:absolute;
+  top:110px;
+  border-radius:20px;
+}
+
+.arm.left{
+  left:-100px;
+  transform:rotate(15deg);
+}
+
+.arm.right{
+  right:-100px;
+  transform:rotate(-15deg);
+}
+
+.message{
+  margin-top:25px;
+  font-size:1.1rem;
+}
+
+/* Glow */
+.glow{
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at center, rgba(255,105,180,0.4), transparent 70%);
+  opacity:0;
+  transition:0.3s;
+  pointer-events:none;
+}
+
+/* Final Hug */
+.final{
+  position:absolute;
+  inset:0;
+  background:#ff9ecf;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  opacity:0;
+  transform:scale(1.1);
+  transition:0.8s ease;
+  text-align:center;
+  padding:20px;
+}
+
+.final.show{
+  opacity:1;
+  transform:scale(1);
+}
+
+/* Next Button */
+.next-btn{
+  position:absolute;
+  bottom:20px;
+  right:20px;
+  padding:10px 20px;
+  border:none;
+  border-radius:20px;
+  background:#ff9ecf;
+  cursor:pointer;
+}
+
+</style>
+</head>
+<body>
+
+<div class="glow" id="glow"></div>
+
+<!-- LOCK SCREEN -->
+<div class="lock-screen" id="lockScreen">
+  <h2>What is our anniversary month? 🤍</h2>
+  <input type="text" id="answer" placeholder="Type here...">
+  <button onclick="checkAnswer()">Unlock</button>
+  <div class="error" id="errorMsg"></div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="container" id="mainContent">
+
+  <div class="heading">Happy Hug Day 🤍</div>
+
+  <div class="silhouette" id="silhouette">
+    <div class="arm left"></div>
+    <div class="arm right"></div>
+  </div>
+
+  <div class="message" id="message">
+    babyyyy hugg krooo na 🥺🤍
+  </div>
+
+</div>
+
+<div class="final" id="finalScreen">
+  <h1>Happy Hug Day 🤍</h1>
+  <p>I wanna hug u so tightly that u forget all the bad things and wanna make u feel safe in my arms i want u not to wry abt anything baby.</p>
+</div>
+
+<button class="next-btn" onclick="goNext()">Next ➜</button>
+
+<script>
+
+/* Floating stars */
+for(let i=0;i<100;i++){
+  const star=document.createElement("div");
+  star.classList.add("star");
+  star.style.left=Math.random()*100+"vw";
+  star.style.animationDuration=(8+Math.random()*10)+"s";
+  star.style.top=Math.random()*-100+"vh";
+  document.body.appendChild(star);
+}
+
+/* Anniversary Unlock */
+function checkAnswer(){
+  const input=document.getElementById("answer").value.trim().toLowerCase();
+  const error=document.getElementById("errorMsg");
+
+  if(input==="june"){
+    document.getElementById("lockScreen").style.display="none";
+    document.getElementById("mainContent").style.display="block";
+  }else{
+    error.innerText="That’s not right 🥺 try again.";
+  }
+}
+
+/* Hug Logic */
+let holdStart;
+let isHolding=false;
+
+const silhouette=document.getElementById("silhouette");
+const glow=document.getElementById("glow");
+const message=document.getElementById("message");
+const finalScreen=document.getElementById("finalScreen");
+
+function startHold(){
+  if(isHolding) return;
+  isHolding=true;
+  holdStart=Date.now();
+
+  glow.style.opacity=1;
+  silhouette.style.transform="scale(1.05)";
+  message.innerText="Hehe hug krte hue kitna acha lgta na 🤍";
+}
+
+function endHold(){
+  if(!isHolding) return;
+  isHolding=false;
+
+  const holdDuration=Date.now()-holdStart;
+
+  glow.style.opacity=0;
+  silhouette.style.transform="scale(1)";
+
+  if(holdDuration>=3000){
+    triggerHug();
+  }else{
+    message.innerText="Na jao naaaaa hug krte rhooo mekooooo babbyyyy";
+  }
+}
+
+function triggerHug(){
+  document.getElementById("mainContent").style.display="none";
+  finalScreen.classList.add("show");
+}
+
+document.body.addEventListener("mousedown",startHold);
+document.body.addEventListener("mouseup",endHold);
+document.body.addEventListener("touchstart",startHold);
+document.body.addEventListener("touchend",endHold);
+
+/* Next */
+function goNext(){
+  window.location.href="kiss.html";
+}
+
+</script>
+
+</body>
+</html>
